@@ -25,4 +25,8 @@ public class EmailViewModel extends AndroidViewModel {
     public void insert(Email email){
         this.emailRepository.insert(email);
     }
+
+    public void update(Email email){
+        this.emailRepository.update(email);
+    }
 }

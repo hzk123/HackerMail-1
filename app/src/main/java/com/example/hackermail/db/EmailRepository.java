@@ -25,6 +25,10 @@ public class EmailRepository {
         new insertAsyncTask(this.emailDao).execute(email);
     }
 
+    public void update(Email email) {
+        new updateAsyncTask(this.emailDao).execute(email);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Email, Void, Void> {
         private EmailDao insertAsyncTaskEmailDao;
 
@@ -36,6 +40,21 @@ public class EmailRepository {
         @Override
         protected Void doInBackground(Email... emails) {
             this.insertAsyncTaskEmailDao.insert(emails[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Email, Void, Void> {
+        private EmailDao updateAsyncTaskEmailDao;
+
+        updateAsyncTask(EmailDao emailDao) {
+            this.updateAsyncTaskEmailDao = emailDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Email... emails) {
+            this.updateAsyncTaskEmailDao.update(emails);
             return null;
         }
     }
