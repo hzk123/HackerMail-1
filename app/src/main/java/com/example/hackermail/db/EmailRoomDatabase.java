@@ -50,8 +50,11 @@ public abstract class EmailRoomDatabase extends RoomDatabase {
         private final EmailDao emailDao;
 
         // Initial data set
+        private long[] clock = {1560358264809L, 1560528000000L};
+        private boolean[] clockIsOn = {false, true};
+        private String[] topic = {"Notifying my wife I will be late", "Go to night club with my buddy"};
         private String[] to = {"kaeteyaruyo@gmail.com", "profatxuanall@gmail.com"};
-        private String[] cc = {"", ""};
+        private String[] cc = {"profatxuanall@gmail.com", "kaeteyaruyo@gmail.com"};
         private String[] subject = {"subject for kaeteyaruyo", "subject for profatxuanall"};
         private String[] body = {"body for kaeteyaruyo", "body for profatxuanall"};
 
@@ -65,6 +68,9 @@ public abstract class EmailRoomDatabase extends RoomDatabase {
             if (this.emailDao.getAnyEmail().length < 1) {
                 for (int i = 0; i < this.to.length; ++i) {
                     Email email = new Email(
+                            this.clock[i],
+                            this.clockIsOn[i],
+                            this.topic[i],
                             this.to[i],
                             this.cc[i],
                             this.subject[i],

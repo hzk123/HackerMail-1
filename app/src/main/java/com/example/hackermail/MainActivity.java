@@ -26,12 +26,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_DATA_MAIL_ID = MainActivity.class.getName() + ".EXTRA_DATA_MAIL_ID";
-    public static final String EXTRA_DATA_MAIL_TO = MainActivity.class.getName() + ".EXTRA_DATA_MAIL_TO";
-    public static final String EXTRA_DATA_MAIL_CC = MainActivity.class.getName() + ".EXTRA_DATA_MAIL_CC";
-    public static final String EXTRA_DATA_MAIL_SUBJECT = MainActivity.class.getName() + ".EXTRA_DATA_MAIL_SUBJECT";
-    public static final String EXTRA_DATA_MAIL_BODY = MainActivity.class.getName() + ".EXTRA_DATA_MAIL_BODY";
+    public static final String EXTRA_REQUEST_CODE = MainActivity.class.getName() + ".EXTRA_REQUEST_CODE";
 
+    public static final int DEFAULT_EMAIL_ACTIVITY_REQUEST_CODE = 0;
     public static final int NEW_EMAIL_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_EMAIL_ACTIVITY_REQUEST_CODE = 2;
 
@@ -48,30 +45,22 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(View v, int position) {
                 Email email = emailListAdapter.getEmailAtPosition(position);
 
-                int emailId = email.getEmailId();
-                String to = email.getTo();
-                String cc = email.getCc();
-                String subject = email.getSubject();
-                String body = email.getBody();
-
                 Intent editDataIntent = new Intent(MainActivity.this, EditDataActivity.class);
 
-                editDataIntent.putExtra(MainActivity.EXTRA_DATA_MAIL_ID, emailId);
-                editDataIntent.putExtra(MainActivity.EXTRA_DATA_MAIL_TO, to);
-                editDataIntent.putExtra(MainActivity.EXTRA_DATA_MAIL_CC, cc);
-                editDataIntent.putExtra(MainActivity.EXTRA_DATA_MAIL_SUBJECT, subject);
-                editDataIntent.putExtra(MainActivity.EXTRA_DATA_MAIL_BODY, body);
+                editDataIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_ID, email.getEmailId());
+                editDataIntent.putExtra(MainActivity.EXTRA_REQUEST_CODE, UPDATE_EMAIL_ACTIVITY_REQUEST_CODE);
 
-                startActivityForResult(editDataIntent, MainActivity.UPDATE_EMAIL_ACTIVITY_REQUEST_CODE);
+                MainActivity.this.startActivityForResult(editDataIntent, MainActivity.UPDATE_EMAIL_ACTIVITY_REQUEST_CODE);
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.email_recyclerview);
+        RecyclerView recyclerView = this.findViewById(R.id.email_recyclerview);
         recyclerView.setAdapter(emailListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         emailViewModel = ViewModelProviders.of(this).get(EmailViewModel.class);
         emailViewModel.getAllEmails().observe(this, new Observer<List<Email>>() {
+
             @Override
             public void onChanged(@Nullable List<Email> emails) {
                 emailListAdapter.setEmails(emails);
@@ -79,11 +68,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent editDataIntent = new Intent(MainActivity.this, EditDataActivity.class);
+                editDataIntent.putExtra(MainActivity.EXTRA_REQUEST_CODE, NEW_EMAIL_ACTIVITY_REQUEST_CODE);
                 startActivityForResult(editDataIntent, MainActivity.NEW_EMAIL_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -111,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Error handling.
-        if(resultCode != RESULT_OK){
+        if (resultCode != RESULT_OK) {
             String failedToastMessage;
-            switch(requestCode){
+            switch (requestCode) {
                 case NEW_EMAIL_ACTIVITY_REQUEST_CODE:
                     failedToastMessage = "failed to create new email";
                     break;
@@ -129,29 +119,6 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast.makeText(this, failedToastMessage, Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        // Successfully create `Email` data.
-        if(requestCode == MainActivity.NEW_EMAIL_ACTIVITY_REQUEST_CODE){
-            String to = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_TO);
-            String cc = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_CC);
-            String subject = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_SUBJECT);
-            String body = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_BODY);
-
-            Email email = new Email(to, cc, subject, body);
-            this.emailViewModel.insert(email);
-        }
-        // Successfully update `Email` data.
-        else if(requestCode == MainActivity.UPDATE_EMAIL_ACTIVITY_REQUEST_CODE){
-            int emailId = data.getIntExtra(MainActivity.EXTRA_DATA_MAIL_ID, 0);
-            String to = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_TO);
-            String cc = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_CC);
-            String subject = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_SUBJECT);
-            String body = data.getStringExtra(MainActivity.EXTRA_DATA_MAIL_BODY);
-
-            Email email = new Email(to, cc, subject, body);
-            email.setEmailId(emailId);
-            this.emailViewModel.update(email);
         }
     }
 }

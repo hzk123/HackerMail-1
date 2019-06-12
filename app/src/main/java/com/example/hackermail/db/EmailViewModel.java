@@ -18,6 +18,10 @@ public class EmailViewModel extends AndroidViewModel {
         this.allEmails = this.emailRepository.getAllEmails();
     }
 
+    public LiveData<Email> getEmail(int emailId){
+        return this.emailRepository.getEmail(emailId);
+    }
+
     public LiveData<List<Email>> getAllEmails(){
         return this.allEmails;
     }

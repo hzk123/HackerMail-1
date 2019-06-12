@@ -12,7 +12,7 @@ public class SendMailAlarmReceiver extends BroadcastReceiver {
         String [] subject = {"Hello I am subject."};
         String [] text = {"Here is your text body."};
 
-        int dataId = intent.getIntExtra(MainActivity.EXTRA_DATA_MAIL_ID, 0);
+        int dataId = intent.getIntExtra(EditDataActivity.EXTRA_DATA_MAIL_ID, 0);
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", mailAddress[dataId], null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject[dataId]);

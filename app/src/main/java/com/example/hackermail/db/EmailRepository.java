@@ -17,6 +17,10 @@ public class EmailRepository {
         this.allEmails = this.emailDao.getAllEmails();
     }
 
+    public LiveData<Email> getEmail(int emailId){
+        return this.emailDao.getEmail(emailId);
+    }
+
     LiveData<List<Email>> getAllEmails() {
         return this.allEmails;
     }
@@ -30,31 +34,31 @@ public class EmailRepository {
     }
 
     private static class insertAsyncTask extends AsyncTask<Email, Void, Void> {
-        private EmailDao insertAsyncTaskEmailDao;
+        private EmailDao emailDao;
 
         insertAsyncTask(EmailDao emailDao) {
-            this.insertAsyncTaskEmailDao = emailDao;
+            this.emailDao = emailDao;
         }
 
 
         @Override
         protected Void doInBackground(Email... emails) {
-            this.insertAsyncTaskEmailDao.insert(emails[0]);
+            this.emailDao.insert(emails);
             return null;
         }
     }
 
     private static class updateAsyncTask extends AsyncTask<Email, Void, Void> {
-        private EmailDao updateAsyncTaskEmailDao;
+        private EmailDao emailDao;
 
         updateAsyncTask(EmailDao emailDao) {
-            this.updateAsyncTaskEmailDao = emailDao;
+            this.emailDao = emailDao;
         }
 
 
         @Override
         protected Void doInBackground(Email... emails) {
-            this.updateAsyncTaskEmailDao.update(emails);
+            this.emailDao.update(emails);
             return null;
         }
     }

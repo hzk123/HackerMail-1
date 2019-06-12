@@ -13,13 +13,13 @@ import java.util.List;
 public interface EmailDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Email email);
+    void insert(Email... email);
 
     @Update
     public void update(Email... emails);
 
     @Query("select * from email where emailId = :emailId")
-    public Email getEmail(int emailId);
+    public LiveData<Email> getEmail(int emailId);
 
     @Query("select * from email limit 1")
     public Email[] getAnyEmail();
