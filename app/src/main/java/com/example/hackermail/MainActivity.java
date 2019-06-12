@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<Email> emails) {
                 emailListAdapter.setEmails(emails);
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
