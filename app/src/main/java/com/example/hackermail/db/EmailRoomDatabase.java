@@ -62,7 +62,7 @@ public abstract class EmailRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             // If we have no words, then create the initial list of emails
-            if (this.emailDao.findAnyEmail().length < 1) {
+            if (this.emailDao.getAnyEmail().length < 1) {
                 for (int i = 0; i < this.to.length; ++i) {
                     Email email = new Email(
                             this.to[i],

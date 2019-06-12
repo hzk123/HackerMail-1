@@ -19,11 +19,11 @@ public interface EmailDao {
     public void update(Email... emails);
 
     @Query("select * from email where emailId = :emailId")
-    public Email findEmail(int emailId);
+    public Email getEmail(int emailId);
 
     @Query("select * from email limit 1")
-    public Email[] findAnyEmail();
+    public Email[] getAnyEmail();
 
     @Query("select * from email")
-    public LiveData<List<Email>> findAllEmails();
+    public LiveData<List<Email>> getAllEmails();
 }
