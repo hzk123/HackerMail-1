@@ -4,22 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.hackermail.MainActivity">
+    tools:context=".EmailListActivity">
 
-    <Button
-        android:id="@+id/go_to_email_list"
+    <include layout="@layout/email_recyclerview" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:layout_gravity="top|left"
-        android:text="email list" />
-
-    <Button
-        android:id="@+id/go_to_template_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="top|right"
-        android:text="template list" />
-
+        android:src="@drawable/ic_add"
+        android:backgroundTint="#ffff9800"
+        />
 </android.support.design.widget.CoordinatorLayout>
