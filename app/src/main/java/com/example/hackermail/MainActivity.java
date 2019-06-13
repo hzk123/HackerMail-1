@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int DEFAULT_EMAIL_ACTIVITY_REQUEST_CODE = 0;
     public static final int NEW_EMAIL_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_EMAIL_ACTIVITY_REQUEST_CODE = 2;
+
+    public static final String EXTRA_MAIL_DATA = "???";
 
     private EmailViewModel emailViewModel;
 
@@ -78,27 +81,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Button btn = findViewById(R.id.button);
-//        btn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent emailIntent = new Intent(MainActivity.this, SendMailAlarmReceiver.class);
-//                emailIntent.putExtra(MainActivity.EXTRA_MAIL_DATA, 0);
-//
-//                PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
-//                        MainActivity.this,
-//                        0,
-//                        emailIntent,
-//                        PendingIntent.FLAG_UPDATE_CURRENT
-//                );
-//
-//                Calendar cal = Calendar.getInstance();
-//                cal.add(Calendar.SECOND, 5);
-//
-//                AlarmManager am = (AlarmManager)getSystemService(MainActivity.this.ALARM_SERVICE);
-//                am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), emailPendingIntent);
-//            }
-//        });
+
+        ItemTouchHelper helper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    // We are not implementing onMove() in this app
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    // When the use swipes a word,
+                    // delete that word from the database.
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        Email del_Email = emailListAdapter.getEmailAtPosition(position);
+                        // Delete
+                        emailViewModel.delete(del_Email);
+                    }
+                });
+            helper.attachToRecyclerView(recyclerView);
+
+
+
+       /* Button btn = findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(MainActivity.this, SendMailAlarmReceiver.class);
+                emailIntent.putExtra(MainActivity.EXTRA_MAIL_DATA, 0);
+
+                PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                        MainActivity.this,
+                        0,
+                        emailIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, 5);
+
+                AlarmManager am = (AlarmManager)getSystemService(MainActivity.this.ALARM_SERVICE);
+                am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), emailPendingIntent);
+            }
+        });*/
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

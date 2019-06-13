@@ -33,6 +33,7 @@ public class EmailRepository {
         new updateAsyncTask(this.emailDao).execute(email);
     }
 
+    public void delete(Email email) { new deleteAsyncTask(this.emailDao).execute(email); }
     private static class insertAsyncTask extends AsyncTask<Email, Void, Void> {
         private EmailDao emailDao;
 
@@ -61,5 +62,22 @@ public class EmailRepository {
             this.emailDao.update(emails);
             return null;
         }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Email, Void , Void>{
+        private EmailDao emailDao;
+
+        deleteAsyncTask(EmailDao emailDao) {
+            this.emailDao = emailDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Email... emails) {
+            this.emailDao.delete(emails[0]);
+            return null;
+        }
+
+
     }
 }

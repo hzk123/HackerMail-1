@@ -1,5 +1,6 @@
 package com.example.hackermail;
 
+import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.hackermail.db.Email;
 import com.example.hackermail.db.EmailViewModel;
@@ -41,16 +43,22 @@ public class EditDataActivity extends AppCompatActivity {
     private EditText ccEditText;
     private EditText subjectEditText;
     private EditText bodyEditText;
+    private EditText EditTime;
 
     private EmailViewModel emailViewModel;
 
     private int requestCode;
     private int emailId;
 
+    public void Back_onClick(View v) {
+        finish();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_data);
+        setContentView(R.layout.activity_edit_data2);
 
         this.clockYearTextView = this.findViewById(R.id.clock_year);
         this.clockMonthTextView = this.findViewById(R.id.clock_month);
@@ -64,6 +72,8 @@ public class EditDataActivity extends AppCompatActivity {
         this.ccEditText = this.findViewById(R.id.edit_text_cc);
         this.subjectEditText = this.findViewById(R.id.edit_text_subject);
         this.bodyEditText = this.findViewById(R.id.edit_text_body);
+        this.EditTime = this.findViewById(R.id.editTextTime);
+
 
         this.emailViewModel = ViewModelProviders.of(this).get(EmailViewModel.class);
 
@@ -138,6 +148,38 @@ public class EditDataActivity extends AppCompatActivity {
 
                 EditDataActivity.this.setResult(RESULT_OK, replyIntent);
                 EditDataActivity.this.finish();
+            }
+        });
+
+
+
+        EditTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 为设置时间按钮绑定监听器
+                EditTime.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Calendar c = Calendar.getInstance();
+                        // create TimePickerDialog and show
+                        new TimePickerDialog(EditDataActivity.this,3,
+                                // Listener
+                                new TimePickerDialog.OnTimeSetListener() {
+
+                                    @Override
+                                    public void onTimeSet(TimePicker view,
+                                                          int hourOfDay, int minute) {
+                                        EditTime.setText(hourOfDay + " : " + minute );
+
+                                    }
+                                }
+                                // set init time
+                                , c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+                                // true --> 24 hour
+                                true).show();
+                    }
+                });
             }
         });
     }

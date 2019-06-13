@@ -1,18 +1,27 @@
 package com.example.hackermail.db;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.hackermail.MainActivity;
 import com.example.hackermail.R;
+import com.example.hackermail.SendMailAlarmReceiver;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
+
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.EmailViewHolder> {
 
@@ -20,8 +29,10 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
     private List<Email> emails;
     private static ClickListener clickListener;
 
-    public EmailListAdapter(Context context) {
-        this.layoutInflater = LayoutInflater.from(context);
+    private static Context context;
+    public EmailListAdapter(Context _context) {
+        this.layoutInflater = LayoutInflater.from(_context);
+        this.context = _context;
     }
 
     @Override
@@ -60,6 +71,49 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
             holder.clockSecondTextView.setText(secondString);
 
             holder.clockIsOnSwitch.setChecked(current.getClockIsOn());
+
+
+            holder.clockIsOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    MainActivity main = (MainActivity)context;
+                    if (isChecked){
+                        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+                        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+                        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                                context,
+                                0,
+                                emailIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.add(Calendar.SECOND, 5);
+
+                        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), emailPendingIntent);
+                        Log.d("switch", "onCheckedChanged: alarm open");
+
+                    }
+                    else {
+
+                        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+                        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+                        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                                context,
+                                0,
+                                emailIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        am.cancel(emailPendingIntent);
+                        Log.d("switch", "onCheckedChanged: alarm cancel");
+                    }
+                }
+            });
+
+
+
 
             holder.topicTextView.setText(current.getTopic());
             holder.toTextView.setText(current.getTo());

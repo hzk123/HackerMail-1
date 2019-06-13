@@ -4,4 +4,7 @@
     <string name="no_cc">cc address not specified yet</string>
     <string name="no_subject">email subject not specified yet</string>
     <string name="no_body">email body not specified yet</string>
+    <string name="MailServiceNotification">Mail_Service_Notification</string>
+    <string name="notification_channel_description">notification from mail service</string>
+    <string name="mail_service">Mail has Send!!!</string>
 </resources>
