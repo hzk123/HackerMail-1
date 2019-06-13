@@ -60,17 +60,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MM" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=":" />
-
-        <TextView
-            android:id="@+id/clock_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SS" />
     </LinearLayout>
 
     <Button

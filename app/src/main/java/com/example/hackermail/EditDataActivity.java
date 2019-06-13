@@ -1,5 +1,7 @@
 package com.example.hackermail;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -8,9 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.example.hackermail.db.DateTimeFormat;
 import com.example.hackermail.db.Email;
 import com.example.hackermail.db.EmailViewModel;
 
@@ -34,7 +39,6 @@ public class EditDataActivity extends AppCompatActivity {
     private TextView clockDayTextView;
     private TextView clockHourTextView;
     private TextView clockMinuteTextView;
-    private TextView clockSecondTextView;
 
     private EditText topicEditText;
     private EditText toEditText;
@@ -52,13 +56,19 @@ public class EditDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_data);
 
+        /**
+         * Date & Time related views initialization.
+         * */
         this.clockYearTextView = this.findViewById(R.id.clock_year);
         this.clockMonthTextView = this.findViewById(R.id.clock_month);
         this.clockDayTextView = this.findViewById(R.id.clock_day);
         this.clockHourTextView = this.findViewById(R.id.clock_hour);
         this.clockMinuteTextView = this.findViewById(R.id.clock_minute);
-        this.clockSecondTextView = this.findViewById(R.id.clock_second);
 
+
+        /**
+         * Text related views initialization.
+         * */
         this.topicEditText = this.findViewById(R.id.edit_text_topic);
         this.toEditText = this.findViewById(R.id.edit_text_to);
         this.ccEditText = this.findViewById(R.id.edit_text_cc);
@@ -78,26 +88,11 @@ public class EditDataActivity extends AppCompatActivity {
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
                     cal.setTimeInMillis(email.getClock());
 
-                    int year = cal.get(Calendar.YEAR);
-                    int month = cal.get(Calendar.MONTH) + 1;
-                    int day = cal.get(Calendar.DAY_OF_MONTH);
-                    int hour = cal.get(Calendar.HOUR);
-                    int minute = cal.get(Calendar.MINUTE);
-                    int second = cal.get(Calendar.SECOND);
-
-                    String yearString = Integer.toString(year);
-                    String monthString = month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
-                    String dayString = day < 10 ? "0" + Integer.toString(day) : Integer.toString(day);
-                    String hourString = hour < 10 ? "0" + Integer.toString(hour) : Integer.toString(hour);
-                    String minuteString = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
-                    String secondString = second < 10 ? "0" + Integer.toString(second) : Integer.toString(second);
-
-                    EditDataActivity.this.clockYearTextView.setText(yearString);
-                    EditDataActivity.this.clockMonthTextView.setText(monthString);
-                    EditDataActivity.this.clockDayTextView.setText(dayString);
-                    EditDataActivity.this.clockHourTextView.setText(hourString);
-                    EditDataActivity.this.clockMinuteTextView.setText(minuteString);
-                    EditDataActivity.this.clockSecondTextView.setText(secondString);
+                    EditDataActivity.this.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
+                    EditDataActivity.this.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
+                    EditDataActivity.this.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
+                    EditDataActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
+                    EditDataActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
 
                     EditDataActivity.this.topicEditText.setText(email.getTopic());
                     EditDataActivity.this.toEditText.setText(email.getTo());
@@ -106,7 +101,47 @@ public class EditDataActivity extends AppCompatActivity {
                     EditDataActivity.this.bodyEditText.setText(email.getBody());
                 }
             });
+        } else {
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
+
+            EditDataActivity.this.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
+            EditDataActivity.this.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
+            EditDataActivity.this.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
+            EditDataActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
+            EditDataActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
         }
+
+        Button chooseDatetime = this.findViewById(R.id.choose_datetime);
+        chooseDatetime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
+
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int hour = cal.get(Calendar.HOUR);
+                int minute = cal.get(Calendar.MINUTE);
+
+                new TimePickerDialog(EditDataActivity.this, 3, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        EditDataActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(hourOfDay));
+                        EditDataActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(minute));
+                    }
+                }, hour, minute, true).show();
+
+                new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        EditDataActivity.this.clockYearTextView.setText(DateTimeFormat.getYearString(year));
+                        EditDataActivity.this.clockMonthTextView.setText(DateTimeFormat.getMonthString(month));
+                        EditDataActivity.this.clockDayTextView.setText(DateTimeFormat.getDayString(dayOfMonth));
+                    }
+                }, year, month, day).show();
+            }
+        });
 
         Button save = this.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
@@ -115,13 +150,20 @@ public class EditDataActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent replyIntent = new Intent();
 
+                Calendar cal = Calendar.getInstance();
+                cal.set(DateTimeFormat.getYearInteger(EditDataActivity.this.clockYearTextView.getText().toString()),
+                        DateTimeFormat.getMonthInteger(EditDataActivity.this.clockMonthTextView.getText().toString()),
+                        DateTimeFormat.getDayInteger(EditDataActivity.this.clockDayTextView.getText().toString()),
+                        DateTimeFormat.getHourInteger(EditDataActivity.this.clockHourTextView.getText().toString()),
+                        DateTimeFormat.getMinuteInteger(EditDataActivity.this.clockMinuteTextView.getText().toString()));
+
                 String topic = EditDataActivity.this.topicEditText.getText().toString();
                 String to = EditDataActivity.this.toEditText.getText().toString();
                 String cc = EditDataActivity.this.ccEditText.getText().toString();
                 String subject = EditDataActivity.this.subjectEditText.getText().toString();
                 String body = EditDataActivity.this.bodyEditText.getText().toString();
 
-                Email email = new Email(Calendar.getInstance().getTimeInMillis(),
+                Email email = new Email(cal.getTimeInMillis(),
                         true,
                         topic,
                         to,

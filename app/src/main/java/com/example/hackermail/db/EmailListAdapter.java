@@ -38,26 +38,11 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
             cal.setTimeInMillis(current.getClock());
 
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH)+1;
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            int hour = cal.get(Calendar.HOUR);
-            int minute = cal.get(Calendar.MINUTE);
-            int second = cal.get(Calendar.SECOND);
-
-            String yearString = Integer.toString(year);
-            String monthString = month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
-            String dayString = day < 10 ? "0" + Integer.toString(day) : Integer.toString(day);
-            String hourString = hour < 10 ? "0" + Integer.toString(hour) : Integer.toString(hour);
-            String minuteString = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
-            String secondString = second < 10 ? "0" + Integer.toString(second) : Integer.toString(second);
-
-            holder.clockYearTextView.setText(yearString);
-            holder.clockMonthTextView.setText(monthString);
-            holder.clockDayTextView.setText(dayString);
-            holder.clockHourTextView.setText(hourString);
-            holder.clockMinuteTextView.setText(minuteString);
-            holder.clockSecondTextView.setText(secondString);
+            holder.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
+            holder.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
+            holder.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
+            holder.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
+            holder.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
 
             holder.clockIsOnSwitch.setChecked(current.getClockIsOn());
 
@@ -95,7 +80,6 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         private final TextView clockDayTextView;
         private final TextView clockHourTextView;
         private final TextView clockMinuteTextView;
-        private final TextView clockSecondTextView;
 
         private final Switch clockIsOnSwitch;
 
@@ -109,7 +93,6 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
             this.clockDayTextView = itemView.findViewById(R.id.clock_day);
             this.clockHourTextView = itemView.findViewById(R.id.clock_hour);
             this.clockMinuteTextView = itemView.findViewById(R.id.clock_minute);
-            this.clockSecondTextView = itemView.findViewById(R.id.clock_second);
 
             this.clockIsOnSwitch = itemView.findViewById(R.id.clock_is_on);
 
