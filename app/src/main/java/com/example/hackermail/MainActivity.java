@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_EMAIL_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_EMAIL_ACTIVITY_REQUEST_CODE = 2;
 
-    public static final String EXTRA_MAIL_DATA = "???";
+    public static final String EXTRA_MAIL_DATA = MainActivity.class.getName() + ".EXTRA_SEND_MAIL";
 
     private EmailViewModel emailViewModel;
 

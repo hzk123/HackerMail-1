@@ -49,7 +49,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
             cal.setTimeInMillis(current.getClock());
 
-            int year = cal.get(Calendar.YEAR);
+            /*int year = cal.get(Calendar.YEAR);
             int month = cal.get(Calendar.MONTH)+1;
             int day = cal.get(Calendar.DAY_OF_MONTH);
             int hour = cal.get(Calendar.HOUR);
@@ -68,7 +68,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
             holder.clockDayTextView.setText(dayString);
             holder.clockHourTextView.setText(hourString);
             holder.clockMinuteTextView.setText(minuteString);
-            holder.clockSecondTextView.setText(secondString);
+            holder.clockSecondTextView.setText(secondString);*/
 
             holder.clockIsOnSwitch.setChecked(current.getClockIsOn());
 

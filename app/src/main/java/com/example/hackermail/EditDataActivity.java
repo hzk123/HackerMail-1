@@ -1,5 +1,7 @@
 package com.example.hackermail;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -7,8 +9,10 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -45,6 +49,7 @@ public class EditDataActivity extends AppCompatActivity {
     private EditText bodyEditText;
     private EditText EditTime;
 
+    int year,month,day,hour,minute , second = 0;
     private EmailViewModel emailViewModel;
 
     private int requestCode;
@@ -88,26 +93,26 @@ public class EditDataActivity extends AppCompatActivity {
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
                     cal.setTimeInMillis(email.getClock());
 
-                    int year = cal.get(Calendar.YEAR);
-                    int month = cal.get(Calendar.MONTH) + 1;
-                    int day = cal.get(Calendar.DAY_OF_MONTH);
-                    int hour = cal.get(Calendar.HOUR);
-                    int minute = cal.get(Calendar.MINUTE);
-                    int second = cal.get(Calendar.SECOND);
-
+                    /*year = cal.get(Calendar.YEAR);
+                    month = cal.get(Calendar.MONTH) + 1;
+                    day = cal.get(Calendar.DAY_OF_MONTH);
+                    hour = cal.get(Calendar.HOUR);
+                    minute = cal.get(Calendar.MINUTE);
+                    second = cal.get(Calendar.SECOND);*/
+/*
                     String yearString = Integer.toString(year);
                     String monthString = month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
                     String dayString = day < 10 ? "0" + Integer.toString(day) : Integer.toString(day);
                     String hourString = hour < 10 ? "0" + Integer.toString(hour) : Integer.toString(hour);
                     String minuteString = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
-                    String secondString = second < 10 ? "0" + Integer.toString(second) : Integer.toString(second);
+                    String secondString = second < 10 ? "0" + Integer.toString(second) : Integer.toString(second);*/
 
-                    EditDataActivity.this.clockYearTextView.setText(yearString);
+                    /*EditDataActivity.this.clockYearTextView.setText(yearString);
                     EditDataActivity.this.clockMonthTextView.setText(monthString);
                     EditDataActivity.this.clockDayTextView.setText(dayString);
                     EditDataActivity.this.clockHourTextView.setText(hourString);
                     EditDataActivity.this.clockMinuteTextView.setText(minuteString);
-                    EditDataActivity.this.clockSecondTextView.setText(secondString);
+                    EditDataActivity.this.clockSecondTextView.setText(secondString);*/
 
                     EditDataActivity.this.topicEditText.setText(email.getTopic());
                     EditDataActivity.this.toEditText.setText(email.getTo());
@@ -156,21 +161,54 @@ public class EditDataActivity extends AppCompatActivity {
         EditTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Log.d("Edittext", "onClick: ");
                 // 为设置时间按钮绑定监听器
                 EditTime.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
                         Calendar c = Calendar.getInstance();
-                        // create TimePickerDialog and show
+
+                        new DatePickerDialog(EditDataActivity.this, 3,
+                                // Listener
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int _year, int _month, int _dayOfMonth) {
+                                        year = _year;
+                                        month = _month;
+                                        day = _dayOfMonth;
+                                    }
+                                }
+                                , c.get(Calendar.YEAR) , c.get(Calendar.MONTH) , c.get(Calendar.DAY_OF_MONTH)).show();
+
+                                // create TimePickerDialog and show
                         new TimePickerDialog(EditDataActivity.this,3,
                                 // Listener
                                 new TimePickerDialog.OnTimeSetListener() {
 
                                     @Override
                                     public void onTimeSet(TimePicker view,
-                                                          int hourOfDay, int minute) {
-                                        EditTime.setText(hourOfDay + " : " + minute );
+                                                          int hourOfDay, int _minute) {
+                                        EditTime.setText(hourOfDay + " : " + _minute );
+                                        hour = hourOfDay;
+                                        minute = _minute;
+
+
+                                        String yearString = Integer.toString(year);
+                                        String monthString = month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
+                                        String dayString = day < 10 ? "0" + Integer.toString(day) : Integer.toString(day);
+                                        String hourString = hour < 10 ? "0" + Integer.toString(hour) : Integer.toString(hour);
+                                        String minuteString = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
+                                        String secondString = second < 10 ? "0" + Integer.toString(second) : Integer.toString(second);
+
+                                        EditDataActivity.this.clockYearTextView.setText(yearString);
+                                        EditDataActivity.this.clockMonthTextView.setText(monthString);
+                                        EditDataActivity.this.clockDayTextView.setText(dayString);
+                                        EditDataActivity.this.clockHourTextView.setText(hourString);
+                                        EditDataActivity.this.clockMinuteTextView.setText(minuteString);
+                                        EditDataActivity.this.clockSecondTextView.setText(secondString);
+
 
                                     }
                                 }
