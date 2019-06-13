@@ -103,7 +103,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
 
                 @Override
                 public void onClick(View view) {
-                    EmailListAdapter.clickListener.onItemClick(view, /*EmailViewHolder.this.*/getAdapterPosition());
+                    EmailListAdapter.clickListener.onItemClick(view, EmailViewHolder.this.getAdapterPosition());
                 }
             });
         }

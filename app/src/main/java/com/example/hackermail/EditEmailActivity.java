@@ -20,7 +20,6 @@ import com.example.hackermail.db.Email;
 import com.example.hackermail.db.EmailViewModel;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.TimeZone;
 
 public class EditEmailActivity extends AppCompatActivity {
@@ -54,7 +53,7 @@ public class EditEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_data);
+        setContentView(R.layout.activity_edit_email);
 
         /**
          * Date & Time related views initialization.

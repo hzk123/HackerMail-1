@@ -4,4 +4,5 @@
     <string name="no_cc">cc address not specified yet</string>
     <string name="no_subject">email subject not specified yet</string>
     <string name="no_body">email body not specified yet</string>
+    <string name="no_topic">no topic</string>
 </resources>

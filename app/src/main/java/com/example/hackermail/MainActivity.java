@@ -23,6 +23,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button goToTemplateList = this.findViewById(R.id.go_to_template_list);
+        goToTemplateList.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TemplateListActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        Button btn = findViewById(R.id.button);
 //        btn.setOnClickListener(new View.OnClickListener(){

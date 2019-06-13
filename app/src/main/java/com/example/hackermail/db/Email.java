@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 public class Email {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "email_id")
     private int emailId;
 
     @NonNull
