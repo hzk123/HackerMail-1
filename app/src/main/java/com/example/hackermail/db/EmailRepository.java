@@ -34,6 +34,8 @@ public class EmailRepository {
     }
 
     public void delete(Email email) { new deleteAsyncTask(this.emailDao).execute(email); }
+
+
     private static class insertAsyncTask extends AsyncTask<Email, Void, Void> {
         private EmailDao emailDao;
 

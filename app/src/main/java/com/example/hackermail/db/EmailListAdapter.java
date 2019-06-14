@@ -18,6 +18,7 @@ import com.example.hackermail.R;
 import com.example.hackermail.SendMailAlarmReceiver;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -44,31 +45,19 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
     @Override
     public void onBindViewHolder(EmailViewHolder holder, int position) {
         if (this.emails != null) {
-            Email current = this.emails.get(position);
+            final Email current = this.emails.get(position);
 
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
+            Log.d("Time", String.valueOf(current.getClock()));
+            Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(current.getClock());
 
-            /*int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH)+1;
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            int hour = cal.get(Calendar.HOUR);
-            int minute = cal.get(Calendar.MINUTE);
-            int second = cal.get(Calendar.SECOND);
 
-            String yearString = Integer.toString(year);
-            String monthString = month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
-            String dayString = day < 10 ? "0" + Integer.toString(day) : Integer.toString(day);
-            String hourString = hour < 10 ? "0" + Integer.toString(hour) : Integer.toString(hour);
-            String minuteString = minute < 10 ? "0" + Integer.toString(minute) : Integer.toString(minute);
-            String secondString = second < 10 ? "0" + Integer.toString(second) : Integer.toString(second);
-
-            holder.clockYearTextView.setText(yearString);
-            holder.clockMonthTextView.setText(monthString);
-            holder.clockDayTextView.setText(dayString);
-            holder.clockHourTextView.setText(hourString);
-            holder.clockMinuteTextView.setText(minuteString);
-            holder.clockSecondTextView.setText(secondString);*/
+            holder.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
+            holder.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
+            holder.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
+            holder.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
+            holder.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
+            holder.clockSecondTextView.setText("0");
 
             holder.clockIsOnSwitch.setChecked(current.getClockIsOn());
 
@@ -86,10 +75,11 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
                                 emailIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT
                         );
-
                         Calendar cal = Calendar.getInstance();
-                        cal.add(Calendar.SECOND, 5);
 
+                        cal.setTimeInMillis(current.getClock());
+
+                        cal.add(Calendar.SECOND, 5);
                         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), emailPendingIntent);
                         Log.d("switch", "onCheckedChanged: alarm open");
