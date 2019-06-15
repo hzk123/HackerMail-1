@@ -10,7 +10,7 @@ public class TemplateTopic {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "template_topic_id")
-    private int templateTopicId;
+    private long templateTopicId;
 
     @NonNull
     @ColumnInfo(name = "topic")
@@ -20,11 +20,11 @@ public class TemplateTopic {
         this.topic = topic;
     }
 
-    public int getTemplateTopicId() {
+    public long getTemplateTopicId() {
         return this.templateTopicId;
     }
 
-    public void setTemplateTopicId(int templateTopicId) {
+    public void setTemplateTopicId(long templateTopicId) {
         this.templateTopicId = templateTopicId;
     }
 

@@ -16,7 +16,6 @@ import com.example.hackermail.db.TemplateTopicViewModel;
 import java.util.List;
 
 public class TemplateListActivity extends AppCompatActivity {
-    private TemplateTopicViewModel templateTopicViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +23,18 @@ public class TemplateListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_template_list);
 
         final TemplateTopicListAdapter templateTopicListAdapter = new TemplateTopicListAdapter(this);
-        templateTopicListAdapter.setOnItemClickListener(new TemplateTopicListAdapter.ClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                TemplateTopic templateTopic = templateTopicListAdapter.getTemplateTopicAtPosition(position);
-            }
-        });
+//        templateTopicListAdapter.setOnItemClickListener(new TemplateTopicListAdapter.ClickListener() {
+//            @Override
+//            public void onItemClick(View v, int position) {
+//                TemplateTopic templateTopic = templateTopicListAdapter.getTemplateTopicAtPosition(position);
+//            }
+//        });
 
         RecyclerView templateTopicRecyclerView = this.findViewById(R.id.template_topic_recyclerview);
         templateTopicRecyclerView.setAdapter(templateTopicListAdapter);
         templateTopicRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        templateTopicViewModel = ViewModelProviders.of(this).get(TemplateTopicViewModel.class);
+        TemplateTopicViewModel templateTopicViewModel = ViewModelProviders.of(this).get(TemplateTopicViewModel.class);
         templateTopicViewModel.getAllTemplateTopics().observe(this, new Observer<List<TemplateTopic>>() {
 
             @Override

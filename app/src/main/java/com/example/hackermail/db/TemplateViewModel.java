@@ -10,27 +10,29 @@ import java.util.List;
 public class TemplateViewModel extends AndroidViewModel {
 
     private TemplateRepository templateRepository;
-    private LiveData<List<TemplateTopic>> allTemplateTopics;
 
     public TemplateViewModel(@NonNull Application application) {
         super(application);
         this.templateRepository = new TemplateRepository(application);
-        this.allTemplateTopics = this.templateRepository.getAllTemplateTopics();
     }
 
-    public LiveData<TemplateTopic> getTemplateTopic(int templateTopicId){
-        return this.templateRepository.getTemplateTopic(templateTopicId);
+    public LiveData<Template> getTemplate(long templateId) {
+        return this.templateRepository.getTemplate(templateId);
     }
 
-    public LiveData<List<TemplateTopic>> getAllTemplateTopics(){
-        return this.allTemplateTopics;
+    public LiveData<List<Template>> getAllTemplates() {
+        return this.templateRepository.getAllTemplates();
     }
 
-    public void insertTemplateTopic(TemplateTopic templateTopic){
-        this.templateRepository.insertTemplateTopic(templateTopic);
+    public LiveData<List<Template>> getAllTemplates(long templateTopicId) {
+        return this.templateRepository.getAllTemplates(templateTopicId);
     }
 
-    public void updateTemplateTopic(TemplateTopic templateTopic){
-        this.templateRepository.updateTemplateTopic(templateTopic);
+    public void insertTemplate(Template template) {
+        this.templateRepository.insertTemplate(template);
+    }
+
+    public void updateTemplate(Template template) {
+        this.templateRepository.updateTemplate(template);
     }
 }

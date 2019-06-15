@@ -7,6 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 @Database(entities = {TemplateTopic.class, Template.class}, version = 1, exportSchema = false)
 public abstract class TemplateRoomDatabase extends RoomDatabase {
@@ -65,7 +66,12 @@ public abstract class TemplateRoomDatabase extends RoomDatabase {
             if (this.templateDao.getAnyTemplateTopic().length < 1) {
                 for (int i = 0; i < this.topic.length; ++i) {
                     TemplateTopic templateTopic = new TemplateTopic(this.topic[i]);
-                    this.templateDao.insertTemplateTopic(templateTopic);
+                    long templateTopicId = this.templateDao.insertTemplateTopic(templateTopic);
+
+                    for (int j = 0; j < this.template[i].length; ++j) {
+                        Template template = new Template(templateTopicId, this.template[i][j]);
+                        this.templateDao.insertTemplate(template);
+                    }
                 }
             }
             return null;

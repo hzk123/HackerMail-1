@@ -6,24 +6,15 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/topic"
+        android:id="@+id/template_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="placeholder for column topic" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <include layout="@layout/template_recyclerview" />
 
-        <TextView
-            android:id="@+id/clock_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2019" />
-    </LinearLayout>
-
-    <Button android:id="@+id/add_template"
+    <Button
+        android:id="@+id/add_template"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>

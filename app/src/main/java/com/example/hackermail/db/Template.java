@@ -9,38 +9,38 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "template",
         foreignKeys = @ForeignKey(entity = TemplateTopic.class,
-                                  parentColumns = "template_topic_id",
-                                  childColumns = "template_topic_id",
-                                  onDelete = ForeignKey.CASCADE),
+                parentColumns = "template_topic_id",
+                childColumns = "template_topic_id",
+                onDelete = ForeignKey.CASCADE),
         indices = {@Index(value = {"template_topic_id"}, unique = true)})
 public class Template {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "template_id")
-    private int templateId;
+    private long templateId;
 
     @NonNull
     @ColumnInfo(name = "template_topic_id")
-    private int templateTopicId;
+    private long templateTopicId;
 
     @NonNull
     @ColumnInfo(name = "template")
     private String template;
 
-    public Template(@NonNull int templateTopicId, @NonNull String template){
+    public Template(@NonNull long templateTopicId, @NonNull String template) {
         this.templateTopicId = templateTopicId;
         this.template = template;
     }
 
-    public int getTemplateId() {
+    public long getTemplateId() {
         return templateId;
     }
 
-    public void setTemplateId(int templateId) {
+    public void setTemplateId(long templateId) {
         this.templateId = templateId;
     }
 
-    public int getTemplateTopicId() {
+    public long getTemplateTopicId() {
         return templateTopicId;
     }
 
