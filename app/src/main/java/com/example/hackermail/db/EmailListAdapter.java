@@ -42,68 +42,73 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         return new EmailViewHolder(itemView);
     }
 
+
+    public void AlarmService_on(Email current){
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(current.getClock());
+
+        MainActivity main = (MainActivity)context;
+        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                emailIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+
+        Log.d( "switch-Triger-check", DateTimeFormat.getTimeString(cal));
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.setExact(AlarmManager.RTC_WAKEUP, current.getClock(), emailPendingIntent);
+
+        Log.d( "switch", "system time: " + DateTimeFormat.getTimeString(Calendar.getInstance()) );
+        Log.d("switch", "onCheckedChanged: system  " + String.valueOf(Calendar.getInstance().getTimeInMillis()));
+        Log.d("switch", "onCheckedChanged: alarm  on " + String.valueOf(current.getClock()));
+    }
+
+    public void AlarmServie_off(Email current){
+        MainActivity main = (MainActivity)context;
+        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                emailIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(emailPendingIntent);
+        Log.d("switch", "onCheckedChanged: alarm cancel");
+    }
     @Override
     public void onBindViewHolder(EmailViewHolder holder, int position) {
         if (this.emails != null) {
             final Email current = this.emails.get(position);
-
             Log.d("Time", String.valueOf(current.getClock()));
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(current.getClock());
-
-
             holder.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
             holder.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
             holder.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
             holder.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
             holder.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
-            holder.clockSecondTextView.setText("0");
-
             holder.clockIsOnSwitch.setChecked(current.getClockIsOn());
 
 
             holder.clockIsOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    MainActivity main = (MainActivity)context;
                     if (isChecked){
-                        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
-                        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
-                        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
-                                context,
-                                0,
-                                emailIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-                        Calendar cal = Calendar.getInstance();
-
-                        cal.setTimeInMillis(current.getClock());
-
-                        cal.add(Calendar.SECOND, 5);
-                        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                        am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), emailPendingIntent);
-                        Log.d("switch", "onCheckedChanged: alarm open");
-
+                        AlarmService_on(current);
                     }
                     else {
-
-                        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
-                        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
-                        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
-                                context,
-                                0,
-                                emailIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-                        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                        am.cancel(emailPendingIntent);
-                        Log.d("switch", "onCheckedChanged: alarm cancel");
+                        AlarmServie_off(current);
                     }
                 }
             });
-
-
-
 
             holder.topicTextView.setText(current.getTopic());
             holder.toTextView.setText(current.getTo());
@@ -139,7 +144,6 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         private final TextView clockDayTextView;
         private final TextView clockHourTextView;
         private final TextView clockMinuteTextView;
-        private final TextView clockSecondTextView;
 
         private final Switch clockIsOnSwitch;
 
@@ -153,7 +157,6 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
             this.clockDayTextView = itemView.findViewById(R.id.clock_day);
             this.clockHourTextView = itemView.findViewById(R.id.clock_hour);
             this.clockMinuteTextView = itemView.findViewById(R.id.clock_minute);
-            this.clockSecondTextView = itemView.findViewById(R.id.clock_second);
 
             this.clockIsOnSwitch = itemView.findViewById(R.id.clock_is_on);
 

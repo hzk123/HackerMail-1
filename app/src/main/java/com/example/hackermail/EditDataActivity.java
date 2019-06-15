@@ -1,10 +1,13 @@
 package com.example.hackermail;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +29,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+
 public class EditDataActivity extends AppCompatActivity {
+
+
 
     public static final String EXTRA_DATA_MAIL_ID = EditDataActivity.class.getName() + ".EXTRA_DATA_MAIL_ID";
     public static final String EXTRA_DATA_MAIL_CLOCK = EditDataActivity.class.getName() + ".EXTRA_DATA_MAIL_CLOCK";
@@ -43,7 +49,6 @@ public class EditDataActivity extends AppCompatActivity {
     private TextView clockDayTextView;
     private TextView clockHourTextView;
     private TextView clockMinuteTextView;
-    private TextView clockSecondTextView;
 
     private EditText topicEditText;
     private EditText toEditText;
@@ -74,7 +79,6 @@ public class EditDataActivity extends AppCompatActivity {
         this.clockDayTextView = this.findViewById(R.id.clock_day);
         this.clockHourTextView = this.findViewById(R.id.clock_hour);
         this.clockMinuteTextView = this.findViewById(R.id.clock_minute);
-        this.clockSecondTextView = this.findViewById(R.id.clock_second);
 
         this.topicEditText = this.findViewById(R.id.edit_text_topic);
         this.toEditText = this.findViewById(R.id.edit_text_to);
@@ -111,7 +115,8 @@ public class EditDataActivity extends AppCompatActivity {
                     EditDataActivity.this.ccEditText.setText(email.getCc());
                     EditDataActivity.this.subjectEditText.setText(email.getSubject());
                     EditDataActivity.this.bodyEditText.setText(email.getBody());
-                    EditDataActivity.this.EditTime.setText( cal.toString() );
+
+                    EditDataActivity.this.EditTime.setText(  DateTimeFormat.getTimeString(cal) );
                 }
             });
         }
@@ -136,7 +141,7 @@ public class EditDataActivity extends AppCompatActivity {
                 String subject = EditDataActivity.this.subjectEditText.getText().toString();
                 String body = EditDataActivity.this.bodyEditText.getText().toString();
 
-
+                Log.d("TimeSet - save", String.valueOf(cal.getTimeInMillis()) );
                 Email email = new Email( cal.getTimeInMillis() ,
                         true,
                         topic,
@@ -145,6 +150,7 @@ public class EditDataActivity extends AppCompatActivity {
                         subject,
                         body);
 
+
                 if (EditDataActivity.this.requestCode == MainActivity.NEW_EMAIL_ACTIVITY_REQUEST_CODE) {
                     emailViewModel.insert(email);
                 } else {
@@ -152,7 +158,9 @@ public class EditDataActivity extends AppCompatActivity {
                     emailViewModel.update(email);
                 }
 
+
                 EditDataActivity.this.setResult(RESULT_OK, replyIntent);
+                AlarmService_on(email);
                 EditDataActivity.this.finish();
             }
         });
@@ -162,35 +170,64 @@ public class EditDataActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
-
-                int year = cal.get(Calendar.YEAR);
-                final int month = cal.get(Calendar.MONTH) + 1;
-                final int day = cal.get(Calendar.DAY_OF_MONTH);
-                int hour = cal.get(Calendar.HOUR);
-                int minute = cal.get(Calendar.MINUTE);
+                final int setyear = cal.get(Calendar.YEAR);
+                final int setmonth = cal.get(Calendar.MONTH);
+                final int setday = cal.get(Calendar.DAY_OF_MONTH);
+                final int sethour = cal.get(Calendar.HOUR_OF_DAY);
+                final int setminute = cal.get(Calendar.MINUTE);
 
                 new TimePickerDialog(EditDataActivity.this, 3, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         EditDataActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(hourOfDay));
                         EditDataActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(minute));
-
+                        EditTime.setText( EditTime.getText() + " " + DateTimeFormat.getHourString(hourOfDay) + ":" + DateTimeFormat.getMinuteString(minute));
                     }
-                }, hour, minute, true).show();
+                }, sethour, setminute, true).show();
 
                 new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        EditDataActivity.this.clockYearTextView.setText(DateTimeFormat.getYearString(year));
-                        EditDataActivity.this.clockMonthTextView.setText(DateTimeFormat.getMonthString(month));
-                        EditDataActivity.this.clockDayTextView.setText(DateTimeFormat.getDayString(dayOfMonth));
+                        String str_year = DateTimeFormat.getYearString(year);
+                        String str_month = DateTimeFormat.getMonthString(month);
+                        String str_day = DateTimeFormat.getDayString(dayOfMonth);
+                        EditDataActivity.this.clockYearTextView.setText(str_year);
+                        EditDataActivity.this.clockMonthTextView.setText(str_month);
+                        EditDataActivity.this.clockDayTextView.setText(str_day);
+
+                        EditTime.setText(setyear+"/"+str_month+"/"+str_day);
                     }
-                }, year, month, day).show();
+                }, setyear, setmonth, setday).show();
 
             }
 
         });
 
+    }
+
+    public void AlarmService_on(Email current) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(current.getClock());
+
+        Intent emailIntent = new Intent(EditDataActivity.this, SendMailAlarmReceiver.class);
+        emailIntent.putExtra(MainActivity.EXTRA_MAIL_DATA, 0);
+        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                EditDataActivity.this,
+                0,
+                emailIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+
+        Log.d( "switch-Triger-check", DateTimeFormat.getTimeString(cal));
+
+        AlarmManager am = (AlarmManager) EditDataActivity.this.getSystemService(Context.ALARM_SERVICE);
+        am.setExact(AlarmManager.RTC_WAKEUP, current.getClock(), emailPendingIntent);
+
+        Log.d( "switch", "system time: " + DateTimeFormat.getTimeString(Calendar.getInstance()) );
+        Log.d("switch", "onCheckedChanged: system  " + String.valueOf(Calendar.getInstance().getTimeInMillis()));
+        Log.d("switch", "onCheckedChanged: alarm  on " + String.valueOf(current.getClock()));
     }
 }

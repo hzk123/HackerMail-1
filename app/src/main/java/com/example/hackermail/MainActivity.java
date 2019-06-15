@@ -106,28 +106,6 @@ public class MainActivity extends AppCompatActivity {
             helper.attachToRecyclerView(recyclerView);
 
 
-
-       /* Button btn = findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(MainActivity.this, SendMailAlarmReceiver.class);
-                emailIntent.putExtra(MainActivity.EXTRA_MAIL_DATA, 0);
-
-                PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
-                        MainActivity.this,
-                        0,
-                        emailIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-
-                Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.SECOND, 5);
-
-                AlarmManager am = (AlarmManager)getSystemService(MainActivity.this.ALARM_SERVICE);
-                am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), emailPendingIntent);
-            }
-        });*/
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
