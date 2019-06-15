@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -106,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             helper.attachToRecyclerView(recyclerView);
 
 
+
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,5 +132,37 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, failedToastMessage, Toast.LENGTH_SHORT).show();
             return;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_template , menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        switch (item.getItemId()) {
+            //noinspection SimplifiableIfStatement
+            case R.id.action_edit_template:
+                //auto junp to Template activity
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Intent jumpIntent = new Intent(MainActivity.this,
+                                TemplateListActivity.class);
+                        MainActivity.this.startActivity(jumpIntent);
+                        MainActivity.this.finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }, 1000);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

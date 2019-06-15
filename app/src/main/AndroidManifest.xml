@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".EditDataActivity" android:parentActivityName=".MainActivity"></activity>
-
+        <activity android:name=".TemplateListActivity" android:parentActivityName=".MainActivity"></activity>
         <receiver android:name=".SendMailAlarmReceiver" />
 
         <activity android:name=".MainActivity">
