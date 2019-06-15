@@ -70,9 +70,7 @@ public abstract class EmailRoomDatabase extends RoomDatabase {
                     Email email = new Email(
                             this.clock[i],
                             this.clockIsOn[i],
-                            this.topic[i],
                             this.to[i],
-                            this.cc[i],
                             this.subject[i],
                             this.body[i]);
                     emailDao.insert(email);

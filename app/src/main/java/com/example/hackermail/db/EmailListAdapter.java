@@ -60,10 +60,8 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         Log.d("MailSent", "subject: " + current.getSubject());
         Log.d( "MailSent" , "body: " + current.getTo());
 
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TOPIC , current.getTopic());
         emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TO ,  current.getTo());
         emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY , current.getBody());
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_CC , current.getCc());
         emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT , current.getSubject());
 
         PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
@@ -125,7 +123,6 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
                 }
             });
 
-            holder.topicTextView.setText(current.getTopic());
             holder.toTextView.setText(current.getTo());
         } else {
             holder.toTextView.setText(R.string.no_to);

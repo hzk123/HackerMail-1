@@ -50,14 +50,11 @@ public class EditDataActivity extends AppCompatActivity {
     private TextView clockHourTextView;
     private TextView clockMinuteTextView;
 
-    private EditText topicEditText;
     private EditText toEditText;
-    private EditText ccEditText;
     private EditText subjectEditText;
     private EditText bodyEditText;
     private EditText EditTime;
 
-    private int year,month,day,hour,minute , second = 0;
 
     private EmailViewModel emailViewModel;
 
@@ -81,9 +78,7 @@ public class EditDataActivity extends AppCompatActivity {
         this.clockHourTextView = this.findViewById(R.id.clock_hour);
         this.clockMinuteTextView = this.findViewById(R.id.clock_minute);
 
-        this.topicEditText = this.findViewById(R.id.edit_text_topic);
         this.toEditText = this.findViewById(R.id.edit_text_to);
-        this.ccEditText = this.findViewById(R.id.edit_text_cc);
         this.subjectEditText = this.findViewById(R.id.edit_text_subject);
         this.bodyEditText = this.findViewById(R.id.edit_text_body);
         this.EditTime = this.findViewById(R.id.editTextTime);
@@ -112,9 +107,7 @@ public class EditDataActivity extends AppCompatActivity {
 
 
 
-                    EditDataActivity.this.topicEditText.setText(email.getTopic());
                     EditDataActivity.this.toEditText.setText(email.getTo());
-                    EditDataActivity.this.ccEditText.setText(email.getCc());
                     EditDataActivity.this.subjectEditText.setText(email.getSubject());
                     EditDataActivity.this.bodyEditText.setText(email.getBody());
 
@@ -137,18 +130,14 @@ public class EditDataActivity extends AppCompatActivity {
                         DateTimeFormat.getHourInteger(EditDataActivity.this.clockHourTextView.getText().toString()),
                         DateTimeFormat.getMinuteInteger(EditDataActivity.this.clockMinuteTextView.getText().toString()));
 
-                String topic = EditDataActivity.this.topicEditText.getText().toString();
                 String to = EditDataActivity.this.toEditText.getText().toString();
-                String cc = EditDataActivity.this.ccEditText.getText().toString();
                 String subject = EditDataActivity.this.subjectEditText.getText().toString();
                 String body = EditDataActivity.this.bodyEditText.getText().toString();
 
                 Log.d("TimeSet - save", String.valueOf(cal.getTimeInMillis()) );
                 Email email = new Email( cal.getTimeInMillis() ,
                         true,
-                        topic,
                         to,
-                        cc,
                         subject,
                         body);
 
@@ -215,10 +204,8 @@ public class EditDataActivity extends AppCompatActivity {
 
         Intent emailIntent = new Intent(EditDataActivity.this, SendMailAlarmReceiver.class);
         emailIntent.putExtra(MainActivity.EXTRA_MAIL_DATA, 0);
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TOPIC , current.getTopic());
         emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TO ,  current.getTo());
         emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY , current.getBody());
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_CC , current.getCc());
         emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT , current.getSubject());
 
 
