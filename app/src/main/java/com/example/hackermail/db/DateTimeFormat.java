@@ -3,6 +3,14 @@ package com.example.hackermail.db;
 import java.util.Calendar;
 
 public class DateTimeFormat {
+    public static String getTimeString(Calendar cal) {
+        String Datedisplay = DateTimeFormat.getYearString(cal)
+                + "/" + DateTimeFormat.getMonthString(cal)
+                + "/" + DateTimeFormat.getDayString(cal);
+        String TimeDisplay = DateTimeFormat.getHourString(cal)
+                + "/" + DateTimeFormat.getMinuteString(cal);
+        return Datedisplay + " " + TimeDisplay;
+    }
     public static String getYearString(Calendar cal) {
         return DateTimeFormat.lessThanTen(cal.get(Calendar.YEAR));
     }

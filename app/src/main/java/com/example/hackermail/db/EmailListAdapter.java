@@ -1,18 +1,28 @@
 package com.example.hackermail.db;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.hackermail.MainActivity;
 import com.example.hackermail.R;
+import com.example.hackermail.SendMailAlarmReceiver;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.EmailViewHolder> {
 
@@ -20,8 +30,10 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
     private List<Email> emails;
     private static ClickListener clickListener;
 
-    public EmailListAdapter(Context context) {
-        this.layoutInflater = LayoutInflater.from(context);
+    private static Context context;
+    public EmailListAdapter(Context _context) {
+        this.layoutInflater = LayoutInflater.from(_context);
+        this.context = _context;
     }
 
     @Override
@@ -30,21 +42,72 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         return new EmailViewHolder(itemView);
     }
 
+
+    public void AlarmService_on(Email current){
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(current.getClock());
+
+        MainActivity main = (MainActivity)context;
+        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                emailIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+
+        Log.d( "switch-Triger-check", DateTimeFormat.getTimeString(cal));
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.setExact(AlarmManager.RTC_WAKEUP, current.getClock(), emailPendingIntent);
+
+        Log.d( "switch", "system time: " + DateTimeFormat.getTimeString(Calendar.getInstance()) );
+        Log.d("switch", "onCheckedChanged: system  " + String.valueOf(Calendar.getInstance().getTimeInMillis()));
+        Log.d("switch", "onCheckedChanged: alarm  on " + String.valueOf(current.getClock()));
+    }
+
+    public void AlarmServie_off(Email current){
+        MainActivity main = (MainActivity)context;
+        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                emailIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(emailPendingIntent);
+        Log.d("switch", "onCheckedChanged: alarm cancel");
+    }
     @Override
     public void onBindViewHolder(EmailViewHolder holder, int position) {
         if (this.emails != null) {
-            Email current = this.emails.get(position);
-
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
+            final Email current = this.emails.get(position);
+            Log.d("Time", String.valueOf(current.getClock()));
+            Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(current.getClock());
-
             holder.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
             holder.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
             holder.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
             holder.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
             holder.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
-
             holder.clockIsOnSwitch.setChecked(current.getClockIsOn());
+
+            holder.clockIsOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        AlarmService_on(current);
+                    }
+                    else {
+                        AlarmServie_off(current);
+                    }
+                }
+            });
 
             holder.topicTextView.setText(current.getTopic());
             holder.toTextView.setText(current.getTo());

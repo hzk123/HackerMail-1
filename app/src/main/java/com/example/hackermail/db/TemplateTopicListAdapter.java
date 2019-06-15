@@ -21,7 +21,6 @@ public class TemplateTopicListAdapter extends RecyclerView.Adapter<TemplateTopic
     private final LayoutInflater layoutInflater;
     private List<TemplateTopic> templateTopics;
     //    private static ClickListener clickListener;
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
     public TemplateTopicListAdapter(Context context) {
         this.layoutInflater = LayoutInflater.from(context);

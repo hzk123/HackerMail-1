@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "template",
         foreignKeys = @ForeignKey(entity = TemplateTopic.class,
-                parentColumns = "template_topic_id",
-                childColumns = "template_topic_id",
-                onDelete = ForeignKey.CASCADE),
+                                  parentColumns = "template_topic_id",
+                                  childColumns = "template_topic_id",
+                                  onDelete = ForeignKey.CASCADE),
         indices = {@Index(value = {"template_topic_id"}, unique = true)})
 public class Template {
 

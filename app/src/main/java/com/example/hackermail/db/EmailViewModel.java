@@ -33,4 +33,8 @@ public class EmailViewModel extends AndroidViewModel {
     public void update(Email email){
         this.emailRepository.update(email);
     }
+
+    public void delete(Email email){
+        this.emailRepository.delete(email);
+    }
 }
