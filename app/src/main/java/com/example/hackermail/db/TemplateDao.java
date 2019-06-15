@@ -30,14 +30,14 @@ public interface TemplateDao {
     @Delete
     public void deleteTemplateTopic(TemplateTopic templateTopic);
 
+    @Delete
+    public void deleteTemplateTopic(TemplateTopic... templateTopics);
+
     @Query("SELECT * FROM template")
     LiveData<List<Template>> getAllTemplates();
 
     @Query("SELECT * FROM template WHERE template_topic_id = :templateTopicId")
     LiveData<List<Template>> getAllTemplates(long templateTopicId);
-
-    @Delete
-    public void deleteTemplateTopic(TemplateTopic... templateTopics);
 
     @Query("SELECT * FROM template_topic")
     LiveData<List<TemplateTopic>> getAllTemplateTopics();

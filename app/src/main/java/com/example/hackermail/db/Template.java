@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
                                   parentColumns = "template_topic_id",
                                   childColumns = "template_topic_id",
                                   onDelete = ForeignKey.CASCADE),
-        indices = {@Index(value = {"template_topic_id"}, unique = true)})
+        indices = {@Index(value = {"template_topic_id"})})
 public class Template {
 
     @PrimaryKey(autoGenerate = true)

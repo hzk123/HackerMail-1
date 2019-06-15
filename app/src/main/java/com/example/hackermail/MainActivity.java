@@ -107,10 +107,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         helper.attachToRecyclerView(recyclerView);
-
-
-
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
