@@ -5,21 +5,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/flight">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="24dp"
-        android:background="#f4f4f4">
+        android:background="@drawable/item_shape"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        >
 
-    <TextView
-        android:id="@+id/text_view_topic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Topic:"
-        style="@style/blueTextMiddle"/>
+
+        <TextView
+            android:id="@+id/text_view_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Topic:"
+            style="@style/blueTextMiddle"/>
 
         <EditText
             android:id="@+id/edit_text_topic"
@@ -28,155 +33,169 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
+            android:text=""
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="-7dp"/>
+
+        <TextView
+            android:id="@+id/txtV5"
+            style="@style/blueTextMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+
+            android:text="Send To:" />
+
+        <EditText
+            android:id="@+id/edit_text_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="xxxx@xxx.com"
+            style="@style/blueTextSmall"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="-7dp"/>
+
+        <TextView
+            android:id="@+id/textView_cc"
+            style="@style/blueTextMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CC to:"/>
+
+        <EditText
+            android:id="@+id/edit_text_cc"
+            android:inputType="textPersonName"
+            android:text=""
+            style="@style/blueTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="-7dp"/>
+
+        <TextView
+            android:id="@+id/txtV6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            style="@style/blueTextMiddle"/>
+
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="time"
+            style="@style/blueTextSmall"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="-7dp"/>
+
+        <TextView
+            android:id="@+id/text_view_subject"
+            style="@style/blueTextMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subject:"/>
+
+        <EditText
+            android:id="@+id/edit_text_subject"
+            style="@style/blueTextSmall"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-7dp"
+            android:layout_marginBottom="5dp"
             android:text="" />
 
-    <TextView
-        android:id="@+id/txtV5"
-        style="@style/blueTextMiddle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-
-        android:text="Send To:" />
-
-    <EditText
-        android:id="@+id/edit_text_to"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="xxxx@xxx.com"
-        style="@style/blueTextSmall"/>
-
-    <TextView
-        android:id="@+id/textView_cc"
-        style="@style/blueTextMiddle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CC to:"/>
-
-    <EditText
-        android:id="@+id/edit_text_cc"
-        android:inputType="textPersonName"
-        android:text=""
-        style="@style/blueTextSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtV6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Time"
-        style="@style/blueTextMiddle"/>
-
-    <EditText
-        android:id="@+id/editTextTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-
-        android:inputType="time"
-        style="@style/blueTextSmall"/>
-
-    <TextView
-        android:id="@+id/text_view_subject"
-        style="@style/blueTextMiddle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Subject:"/>
-    <EditText
-        android:id="@+id/edit_text_subject"
-        style="@style/blueTextSmall"
-        android:text=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtV7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Body:"
-        style="@style/blueTextMiddle" />
-
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp">
-
-    <EditText
-        android:id="@+id/edit_text_body"
-        style="@style/blueTextSmall"
-        android:layout_width="237dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint=""
-        android:inputType="textNoSuggestions"
-        android:text="xzzzzzzzzzz"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/buttonTemplate"
-        style="@style/blueTextSmall"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="T"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.764"
-        app:layout_constraintStart_toEndOf="@+id/edit_text_body"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-</android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="130dp"
+        <TextView
+            android:id="@+id/txtV7"
+            style="@style/blueTextMiddle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/blueTextSmall"/>
+            android:layout_marginBottom="5dp"
+            android:text="Body:" />
 
-        <Button
-            android:id="@+id/buttonCancel"
-            style="@style/blueTextSmall"
-            android:layout_width="130dp"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="324dp"
+            android:layout_height="73dp"
+            android:layout_marginTop="-25dp"
+            android:layout_marginBottom="5dp">
+
+            <EditText
+                android:id="@+id/edit_text_body"
+                style="@style/blueTextSmall"
+                android:layout_width="221dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:hint=""
+                android:inputType="textNoSuggestions"
+                android:text="xzzzzzzzzzz"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/buttonTemplate"
+                style="@style/blueTextSmall"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border_line_white"
+                android:text="T"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.138"
+                app:layout_constraintStart_toEndOf="@+id/edit_text_body"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:onClick="Back_onClick"
-            android:text="Cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/save"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_marginTop="0dp">
 
-    </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/save"
+                style="@style/blueTextSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border_line_white"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonCancel"
+                style="@style/blueTextSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:onClick="Back_onClick"
+                android:text="Cancel"
+                android:background="@drawable/border_line_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/save"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </android.support.constraint.ConstraintLayout>
 
 
     <LinearLayout
@@ -185,8 +204,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="16dp"
-        android:orientation="horizontal">
+        android:layout_marginLeft="16dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/clock_year"
@@ -233,13 +253,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MM" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=":" />
-
-
     </LinearLayout>
 
     </LinearLayout>

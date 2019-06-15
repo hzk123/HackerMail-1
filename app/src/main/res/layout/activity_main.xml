@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.hackermail.MainActivity">
+    tools:context="com.example.hackermail.MainActivity"
+    android:background="@drawable/flight">
 
     <!--<Button-->
         <!--android:id="@+id/button"-->
@@ -26,6 +27,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        android:backgroundTint="#ffff9800"
+        android:backgroundTint="#1785C6"
     />
 </android.support.design.widget.CoordinatorLayout>

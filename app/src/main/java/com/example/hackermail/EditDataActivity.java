@@ -64,6 +64,7 @@ public class EditDataActivity extends AppCompatActivity {
     private int requestCode;
     private int emailId;
 
+
     public void Back_onClick(View v) {
         finish();
     }
@@ -86,6 +87,7 @@ public class EditDataActivity extends AppCompatActivity {
         this.subjectEditText = this.findViewById(R.id.edit_text_subject);
         this.bodyEditText = this.findViewById(R.id.edit_text_body);
         this.EditTime = this.findViewById(R.id.editTextTime);
+        this.EditTime.setFocusable(false);
 
 
         this.emailViewModel = ViewModelProviders.of(this).get(EmailViewModel.class);

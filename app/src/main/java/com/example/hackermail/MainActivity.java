@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             //noinspection SimplifiableIfStatement
             case R.id.action_edit_template:
-                //auto junp to Template activity
+                //jump to Template activity
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         Intent jumpIntent = new Intent(MainActivity.this,
