@@ -39,9 +39,9 @@ public class EmailListActivity extends AppCompatActivity {
             public void onItemClick(View v, int position) {
                 Email email = emailListAdapter.getEmailAtPosition(position);
 
-                Intent editDataIntent = new Intent(EmailListActivity.this, EditEmailActivity.class);
+                Intent editDataIntent = new Intent(EmailListActivity.this, EditDataActivity.class);
 
-                editDataIntent.putExtra(EditEmailActivity.EXTRA_DATA_MAIL_ID, email.getEmailId());
+                editDataIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_ID, email.getEmailId());
                 editDataIntent.putExtra(EmailListActivity.EXTRA_REQUEST_CODE, UPDATE_EMAIL_ACTIVITY_REQUEST_CODE);
 
                 EmailListActivity.this.startActivityForResult(editDataIntent, EmailListActivity.UPDATE_EMAIL_ACTIVITY_REQUEST_CODE);
@@ -66,7 +66,7 @@ public class EmailListActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent editDataIntent = new Intent(EmailListActivity.this, EditEmailActivity.class);
+                Intent editDataIntent = new Intent(EmailListActivity.this, EditDataActivity.class);
                 editDataIntent.putExtra(EmailListActivity.EXTRA_REQUEST_CODE, NEW_EMAIL_ACTIVITY_REQUEST_CODE);
                 startActivityForResult(editDataIntent, EmailListActivity.NEW_EMAIL_ACTIVITY_REQUEST_CODE);
             }

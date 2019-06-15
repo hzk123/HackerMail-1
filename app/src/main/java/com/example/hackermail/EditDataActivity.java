@@ -215,6 +215,13 @@ public class EditDataActivity extends AppCompatActivity {
 
         Intent emailIntent = new Intent(EditDataActivity.this, SendMailAlarmReceiver.class);
         emailIntent.putExtra(MainActivity.EXTRA_MAIL_DATA, 0);
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TOPIC , current.getTopic());
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TO ,  current.getTo());
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY , current.getBody());
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_CC , current.getCc());
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT , current.getSubject());
+
+
         PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
                 EditDataActivity.this,
                 0,

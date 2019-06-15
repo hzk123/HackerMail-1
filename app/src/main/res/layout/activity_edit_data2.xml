@@ -19,23 +19,6 @@
         >
 
 
-        <TextView
-            android:id="@+id/text_view_topic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Topic:"
-            style="@style/blueTextMiddle"/>
-
-        <EditText
-            android:id="@+id/edit_text_topic"
-            style="@style/blueTextSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:text=""
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="-7dp"/>
 
         <TextView
             android:id="@+id/txtV5"
@@ -57,22 +40,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="-7dp"/>
 
-        <TextView
-            android:id="@+id/textView_cc"
-            style="@style/blueTextMiddle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CC to:"/>
 
-        <EditText
-            android:id="@+id/edit_text_cc"
-            android:inputType="textPersonName"
-            android:text=""
-            style="@style/blueTextSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="-7dp"/>
 
         <TextView
             android:id="@+id/txtV6"
@@ -116,20 +84,20 @@
             android:text="Body:" />
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="324dp"
-            android:layout_height="73dp"
+            android:layout_width="347dp"
+            android:layout_height="315dp"
             android:layout_marginTop="-25dp"
             android:layout_marginBottom="5dp">
 
             <EditText
                 android:id="@+id/edit_text_body"
                 style="@style/blueTextSmall"
-                android:layout_width="221dp"
-                android:layout_height="49dp"
-                android:layout_marginStart="4dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_marginBottom="8dp"
                 android:hint=""
-                android:inputType="textNoSuggestions"
+                android:inputType="textMultiLine"
+                android:minLines="5"
                 android:text="xzzzzzzzzzz"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +116,7 @@
                 android:text="T"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.138"
+                app:layout_constraintHorizontal_bias="0.611"
                 app:layout_constraintStart_toEndOf="@+id/edit_text_body"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
