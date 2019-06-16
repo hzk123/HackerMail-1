@@ -34,16 +34,23 @@ public class Email {
     @ColumnInfo(name = "body")
     private String body;
 
+
+    @NonNull
+    @ColumnInfo(name = "topicid")
+    private long topicid;
+
     public Email(@NonNull long clock,
                  @NonNull boolean clockIsOn,
                  @NonNull String to,
                  @NonNull String subject,
-                 @NonNull String body) {
+                 @NonNull String body,
+                 @NonNull long topicid) {
         this.clock = clock;
         this.clockIsOn = clockIsOn;
         this.to = to;
         this.subject = subject;
         this.body = body;
+        this.topicid = topicid;
     }
 
     public int getEmailId() {
@@ -97,5 +104,13 @@ public class Email {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public long getTopicid(){
+        return this.topicid;
+    }
+
+    public void setTopicid(long topicid){
+        this.topicid = topicid;
     }
 }

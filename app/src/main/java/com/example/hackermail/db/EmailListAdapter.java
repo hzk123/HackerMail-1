@@ -2,8 +2,11 @@ package com.example.hackermail.db;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import com.example.hackermail.SendMailAlarmReceiver;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 import static android.support.v4.content.ContextCompat.getSystemService;
@@ -44,40 +48,46 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
     }
 
 
-    public void AlarmService_on(Email current){
-
-
+    public void AlarmService_on(final Email current){
         if (current.getClock() <  Calendar.getInstance().getTimeInMillis() )
             return ;
+        final MainActivity main = (MainActivity)context;
 
-        MainActivity main = (MainActivity)context;
-        Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
-
-        emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
-
-
-        Log.d("MailSent", "subject: " + current.getSubject());
-        Log.d( "MailSent" , "body: " + current.getTo());
-
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TO ,  current.getTo());
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY , current.getBody());
-        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT , current.getSubject());
-
-        PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
-                context,
-                0,
-                emailIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
+        TemplateViewModel templateViewModel = ViewModelProviders.of( main ).get(TemplateViewModel.class);
+        templateViewModel.getAllTemplates(current.getTopicid()).observe( main  , new Observer<List<Template>>() {
+            @Override
+            public void onChanged(@Nullable List<Template> templates) {
+                final String[] all_templates = new String[templates.size()];
+                for (int i = 0; i < templates.size(); i++)
+                    all_templates[i] = templates.get(i).getTemplate();
+                Random random1 = new Random(1);
+                final Intent emailIntent = new Intent(main, SendMailAlarmReceiver.class);
+                emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TO ,  current.getTo());
+                emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT , current.getSubject());
 
 
+                if (templates.size() != 0 ) {
+                    Log.d("message-text", all_templates[Math.abs(random1.nextInt()) % templates.size()]);
+                    //emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY , " test  mail send");
+                    emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY, all_templates[Math.abs(random1.nextInt()) % templates.size()]);
+                } else {
+                    emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY, "You have write nothing");
+                }
 
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        am.setExact(AlarmManager.RTC_WAKEUP, current.getClock(), emailPendingIntent);
+                PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
+                        context,
+                        current.getEmailId(),
+                        emailIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
 
-        Log.d( "switch", "system time: " + DateTimeFormat.getTimeString(Calendar.getInstance()) );
-        Log.d("switch", "onCheckedChanged: system  " + String.valueOf(Calendar.getInstance().getTimeInMillis()));
-        Log.d("switch", "onCheckedChanged: alarm  on " + String.valueOf(current.getClock()));
+                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                am.setExact(AlarmManager.RTC_WAKEUP, current.getClock(), emailPendingIntent);
+
+            }
+        });
+
+
     }
 
     public void AlarmServie_off(Email current){
@@ -86,7 +96,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
         PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
                 context,
-                0,
+                current.getEmailId(),
                 emailIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
