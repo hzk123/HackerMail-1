@@ -2,7 +2,6 @@ package com.example.hackermail.db;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +50,6 @@ public class TemplateListAdapter extends RecyclerView.Adapter<TemplateListAdapte
         else return 0;
     }
 
-    public Template getTemplateAtPosition(int position) {
-        return this.templates.get(position);
-    }
 
     public void setOnItemClickListener(ClickListener clickListener) {
         TemplateListAdapter.clickListener = clickListener;
@@ -68,17 +64,18 @@ public class TemplateListAdapter extends RecyclerView.Adapter<TemplateListAdapte
 
             this.templateTextView = itemView.findViewById(R.id.template);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
-                public void onClick(View view) {
-                    TemplateListAdapter.clickListener.onItemClick(view, TemplateViewHolder.this.getAdapterPosition());
+                public boolean onLongClick(View view) {
+                    TemplateListAdapter.clickListener.onItemClick(view, templates.get(TemplateViewHolder.this.getAdapterPosition()));
+                    return true;
                 }
             });
         }
     }
 
     public interface ClickListener {
-        void onItemClick(View v, int position);
+        void onItemClick(View v, Template template);
     }
 }

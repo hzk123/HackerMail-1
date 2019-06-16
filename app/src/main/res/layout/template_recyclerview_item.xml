@@ -9,5 +9,8 @@
         android:id="@+id/template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="placeholder for template" />
+        android:ellipsize="end"
+        android:lines="1"
+        tools:text="placeholder for template"
+        style="@style/blueTextSmall"/>
 </LinearLayout>

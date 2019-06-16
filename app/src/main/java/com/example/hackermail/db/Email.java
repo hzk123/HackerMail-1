@@ -20,16 +20,11 @@ public class Email {
     @ColumnInfo(name = "switch")
     private boolean clockIsOn;
 
-    @NonNull
-    @ColumnInfo(name = "topic")
-    private String topic;
 
     @NonNull
     @ColumnInfo(name = "to")
     private String to;
 
-    @ColumnInfo(name = "cc")
-    private String cc;
 
     @NonNull
     @ColumnInfo(name = "subject")
@@ -41,16 +36,12 @@ public class Email {
 
     public Email(@NonNull long clock,
                  @NonNull boolean clockIsOn,
-                 @NonNull String topic,
                  @NonNull String to,
-                 String cc,
                  @NonNull String subject,
                  @NonNull String body) {
         this.clock = clock;
         this.clockIsOn = clockIsOn;
-        this.topic = topic;
         this.to = to;
-        this.cc = cc;
         this.subject = subject;
         this.body = body;
     }
@@ -79,13 +70,7 @@ public class Email {
         this.clockIsOn = clockIsOn;
     }
 
-    public String getTopic() {
-        return this.topic;
-    }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
 
     public String getTo() {
         return this.to;
@@ -95,13 +80,8 @@ public class Email {
         this.to = to;
     }
 
-    public String getCc() {
-        return this.cc;
-    }
 
-    public void setCc(String cc) {
-        this.cc = cc;
-    }
+
 
     public String getSubject() {
         return this.subject;

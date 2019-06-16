@@ -93,9 +93,7 @@ public class EditEmailActivity extends AppCompatActivity {
                     EditEmailActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
                     EditEmailActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
 
-                    EditEmailActivity.this.topicEditText.setText(email.getTopic());
                     EditEmailActivity.this.toEditText.setText(email.getTo());
-                    EditEmailActivity.this.ccEditText.setText(email.getCc());
                     EditEmailActivity.this.subjectEditText.setText(email.getSubject());
                     EditEmailActivity.this.bodyEditText.setText(email.getBody());
                 }
@@ -164,9 +162,7 @@ public class EditEmailActivity extends AppCompatActivity {
 
                 Email email = new Email(cal.getTimeInMillis(),
                         true,
-                        topic,
                         to,
-                        cc,
                         subject,
                         body);
 

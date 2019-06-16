@@ -35,4 +35,8 @@ public class TemplateViewModel extends AndroidViewModel {
     public void updateTemplate(Template template) {
         this.templateRepository.updateTemplate(template);
     }
+
+    public void deleteTemplate(Long template) {
+        this.templateRepository.deleteTemplate(template);
+    }
 }

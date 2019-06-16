@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TemplateListActivity">
+    tools:context=".TemplateListActivity"
+    android:background="@drawable/flight">
 
     <include layout="@layout/template_topic_recyclerview" />
 
@@ -15,5 +16,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        android:backgroundTint="#ffff9800"/>
+        android:backgroundTint="#1785C6"
+        android:onClick="addNewTem"/>
 </android.support.design.widget.CoordinatorLayout>

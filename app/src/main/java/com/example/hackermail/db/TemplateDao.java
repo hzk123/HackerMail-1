@@ -27,6 +27,10 @@ public interface TemplateDao {
     @Delete
     public void deleteTemplate(Template template);
 
+    @Query("DELETE  FROM template where template_id=:templateId")
+    void deleteTemplateById(long templateId);
+
+
     @Delete
     public void deleteTemplateTopic(TemplateTopic templateTopic);
 

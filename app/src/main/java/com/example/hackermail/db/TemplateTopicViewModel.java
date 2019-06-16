@@ -28,6 +28,11 @@ public class TemplateTopicViewModel extends AndroidViewModel {
         this.templateRepository.insertTemplateTopic(templateTopic);
     }
 
+    public void deleteTemplateTopic(TemplateTopic templateTopic) {
+        this.templateRepository.deleteTemplateTopic(templateTopic);
+    }
+
+
     public void updateTemplateTopic(TemplateTopic templateTopic) {
         this.templateRepository.updateTemplateTopic(templateTopic);
     }

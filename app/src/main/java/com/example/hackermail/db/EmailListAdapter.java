@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.hackermail.EditDataActivity;
 import com.example.hackermail.MainActivity;
 import com.example.hackermail.R;
 import com.example.hackermail.SendMailAlarmReceiver;
@@ -45,12 +46,23 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
 
     public void AlarmService_on(Email current){
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(current.getClock());
+
+        if (current.getClock() <  Calendar.getInstance().getTimeInMillis() )
+            return ;
 
         MainActivity main = (MainActivity)context;
         Intent emailIntent = new Intent( main , SendMailAlarmReceiver.class);
+
         emailIntent.putExtra(main.EXTRA_MAIL_DATA, 0);
+
+
+        Log.d("MailSent", "subject: " + current.getSubject());
+        Log.d( "MailSent" , "body: " + current.getTo());
+
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_TO ,  current.getTo());
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY , current.getBody());
+        emailIntent.putExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT , current.getSubject());
+
         PendingIntent emailPendingIntent = PendingIntent.getBroadcast(
                 context,
                 0,
@@ -59,7 +71,6 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
         );
 
 
-        Log.d( "switch-Triger-check", DateTimeFormat.getTimeString(cal));
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.setExact(AlarmManager.RTC_WAKEUP, current.getClock(), emailPendingIntent);
@@ -109,7 +120,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
                 }
             });
 
-            holder.topicTextView.setText(current.getTopic());
+            holder.SubjectTextView.setText(current.getSubject());
             holder.toTextView.setText(current.getTo());
         } else {
             holder.toTextView.setText(R.string.no_to);
@@ -146,7 +157,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
 
         private final Switch clockIsOnSwitch;
 
-        private final TextView topicTextView;
+        private final TextView SubjectTextView;
         private final TextView toTextView;
 
         private EmailViewHolder(View itemView) {
@@ -159,7 +170,7 @@ public class EmailListAdapter extends RecyclerView.Adapter<EmailListAdapter.Emai
 
             this.clockIsOnSwitch = itemView.findViewById(R.id.clock_is_on);
 
-            this.topicTextView = itemView.findViewById(R.id.topic);
+            this.SubjectTextView = itemView.findViewById(R.id.subject);
             this.toTextView = itemView.findViewById(R.id.to);
 
             itemView.setOnClickListener(new View.OnClickListener() {

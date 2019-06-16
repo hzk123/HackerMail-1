@@ -9,27 +9,16 @@ import android.util.Log;
 public class SendMailAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        String [] mailAddress = {"hzk1201@gmail.com"};
-        String [] subject = {"Hello I am subject."};
-        String [] text = {"Here is your text body."};
+        String mailto = intent.getStringExtra(EditDataActivity.EXTRA_DATA_MAIL_TO );
+        String mailbody = intent.getStringExtra(EditDataActivity.EXTRA_DATA_MAIL_BODY);
+        String mailsubject = intent.getStringExtra(EditDataActivity.EXTRA_DATA_MAIL_SUBJECT);
 
-        Log.d("switch", "broadcast reveived");
-
-        int dataId = intent.getIntExtra(EditDataActivity.EXTRA_DATA_MAIL_ID, 0);
-
-        Log.d("switch", "intend get");
-
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", mailAddress[dataId], null));
-
-        Log.d("switch", "intend create");
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", mailto, null));
 
         emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject[dataId]);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, text[dataId]);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, mailsubject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, mailbody);
 
-        Log.d("switch", "extra sent");
         context.startActivity(emailIntent);
-
-        Log.d("switch", "emailIntent sent");
     }
 }

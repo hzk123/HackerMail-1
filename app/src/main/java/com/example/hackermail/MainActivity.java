@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent jumpIntent = new Intent(MainActivity.this,
                                 TemplateListActivity.class);
                         MainActivity.this.startActivity(jumpIntent);
-                        MainActivity.this.finish();
+//                        MainActivity.this.finish();
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 }, 1000);
