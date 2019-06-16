@@ -35,7 +35,19 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom|right">
+    android:layout_gravity="bottom|left">
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/blueTextSmall"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Add new template"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_template"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add_template"
@@ -43,26 +55,12 @@
         android:layout_height="27dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:background="@drawable/border_line_white"
         android:backgroundTint="#1785C6"
         android:src="@drawable/ic_add"
         android:text="+"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        tools:layout_editor_absoluteY="2dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        style="@style/blueTextSmall"
-        android:layout_width="125dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="144dp"
-        android:text="Add new template"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
