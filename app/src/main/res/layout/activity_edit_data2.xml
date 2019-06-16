@@ -34,10 +34,13 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:text="xxxx@xxx.com"
+            android:text=""
+            android:hint="your email@xxx.com"
             style="@style/blueTextSmall"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="-7dp"/>
+            android:layout_marginTop="-7dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <TextView
             android:id="@+id/txtV6"
@@ -54,7 +57,9 @@
             android:inputType="time"
             style="@style/blueTextSmall"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="-7dp"/>
+            android:layout_marginTop="-7dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <TextView
             android:id="@+id/text_view_subject"
@@ -70,7 +75,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-7dp"
             android:layout_marginBottom="5dp"
-            android:text="" />
+            android:text=""
+            android:hint="your subject"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
 
 
@@ -127,7 +135,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtV7"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="1.0"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
 
 

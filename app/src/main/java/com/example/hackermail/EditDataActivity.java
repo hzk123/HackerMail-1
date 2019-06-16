@@ -120,6 +120,16 @@ public class EditDataActivity extends AppCompatActivity {
                 }
             });
         }
+        else{
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
+
+            EditDataActivity.this.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
+            EditDataActivity.this.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
+            EditDataActivity.this.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
+            EditDataActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
+            EditDataActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
+            EditDataActivity.this.EditTime.setText(DateTimeFormat.getTimeString(cal));
+        }
 
         Button save = this.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
