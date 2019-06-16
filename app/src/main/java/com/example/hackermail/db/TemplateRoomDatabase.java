@@ -50,11 +50,11 @@ public abstract class TemplateRoomDatabase extends RoomDatabase {
         private final TemplateDao templateDao;
 
         // Initial data set
-        private String[] topic = {"topic 1", "topic 2", "topic 3"};
+        private String[] topic = {"公事", "工作應酬", "親友聚會"};
         private String[][] template = {
-                {"template 1 in topic 1", "template 2 in topic 1"},
-                {"template 1 in topic 2", "template 2 in topic 2"},
-                {"template 1 in topic 3", "template 2 in topic 3"}};
+                {"今晚老闆突然要meeting,必須要加班到很晚", "工作沒有做完，馬上要到DDL了快要死了"},
+                {"客戶來了逃不掉了實在沒有辦法很抱歉", "老闆請客吃飯必須要給面子不然要被開除了"},
+                {"二十年交情的老朋友突然來找我了，我實在太高興了，今天必須要請他吃飯。非常抱歉晚上不回來了。", "我突然想起來今天同事結婚"}};
 
         PopulateDbAsync(TemplateRoomDatabase db) {
             this.templateDao = db.getTemplateDao();
