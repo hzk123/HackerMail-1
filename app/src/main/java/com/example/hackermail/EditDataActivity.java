@@ -73,12 +73,6 @@ public class EditDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_data2);
 
-        this.clockYearTextView = this.findViewById(R.id.clock_year);
-        this.clockMonthTextView = this.findViewById(R.id.clock_month);
-        this.clockDayTextView = this.findViewById(R.id.clock_day);
-        this.clockHourTextView = this.findViewById(R.id.clock_hour);
-        this.clockMinuteTextView = this.findViewById(R.id.clock_minute);
-
         this.toEditText = this.findViewById(R.id.edit_text_to);
         this.subjectEditText = this.findViewById(R.id.edit_text_subject);
         this.bodyEditText = this.findViewById(R.id.edit_text_body);
@@ -99,21 +93,16 @@ public class EditDataActivity extends AppCompatActivity {
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
                     cal.setTimeInMillis(email.getClock());
 
-
-                    EditDataActivity.this.clockYearTextView.setText(DateTimeFormat.getYearString(cal));
-                    EditDataActivity.this.clockMonthTextView.setText(DateTimeFormat.getMonthString(cal));
-                    EditDataActivity.this.clockDayTextView.setText(DateTimeFormat.getDayString(cal));
-                    EditDataActivity.this.clockHourTextView.setText(DateTimeFormat.getHourString(cal));
-                    EditDataActivity.this.clockMinuteTextView.setText(DateTimeFormat.getMinuteString(cal));
-
-
                     EditDataActivity.this.toEditText.setText(email.getTo());
                     EditDataActivity.this.subjectEditText.setText(email.getSubject());
                     EditDataActivity.this.bodyEditText.setText(email.getBody());
-
                     EditDataActivity.this.EditTime.setText(DateTimeFormat.getTimeString(cal));
                 }
             });
+        }
+        else{
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"));
+            EditDataActivity.this.EditTime.setText(DateTimeFormat.getTimeString(cal));
         }
 
         Button save = this.findViewById(R.id.save);
