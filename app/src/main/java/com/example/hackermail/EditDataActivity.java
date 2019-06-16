@@ -4,7 +4,9 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,10 +28,14 @@ import com.example.hackermail.db.DateTimeFormat;
 import com.example.hackermail.db.Email;
 import com.example.hackermail.db.EmailViewModel;
 import com.example.hackermail.db.Template;
+import com.example.hackermail.db.TemplateRepository;
+import com.example.hackermail.db.TemplateTopic;
+import com.example.hackermail.db.TemplateTopicViewModel;
 import com.example.hackermail.db.TemplateViewModel;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 
@@ -84,7 +90,6 @@ public class EditDataActivity extends AppCompatActivity {
         this.bodyEditText = this.findViewById(R.id.edit_text_body);
         this.EditTime = this.findViewById(R.id.editTextTime);
         this.EditTime.setFocusable(false);
-
 
         this.emailViewModel = ViewModelProviders.of(this).get(EmailViewModel.class);
 
@@ -207,21 +212,37 @@ public class EditDataActivity extends AppCompatActivity {
 
 
     private void showDialog() {
-        TemplateViewModel templateViewModel = ViewModelProviders.of(this).get(TemplateViewModel.class);
-        templateViewModel.getAllTemplates().observe(EditDataActivity.this, new Observer<List<Template>>() {
+        final TemplateViewModel templateViewModel = ViewModelProviders.of(this).get(TemplateViewModel.class);
+        TemplateTopicViewModel ViewModel = ViewModelProviders.of(this).get(TemplateTopicViewModel.class);
+        ViewModel.getAllTemplateTopics().observe(EditDataActivity.this, new Observer<List<TemplateTopic>>() {
             @Override
-            public void onChanged(@Nullable List<Template> templates) {
-                final String[] strings = new String[templates.size()];
-                for (int i = 0; i < templates.size(); i++) {
-                    strings[i] = templates.get(i).getTemplate();
+            public void onChanged(@Nullable List<TemplateTopic> templatetopics) {
+                final String[] strings = new String[templatetopics.size()];
+                final Long[] ids = new Long[templatetopics.size()];
+                for (int i = 0; i < templatetopics.size(); i++) {
+                    strings[i] = templatetopics.get(i).getTopic();
+                    ids[i] = templatetopics.get(i).getTemplateTopicId();
                 }
 
                 new AlertDialog.Builder(EditDataActivity.this)
                         .setItems(strings, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String content = strings[which];
-                                bodyEditText.setText(content);
+                                long id = ids[which];
+
+                                templateViewModel.getAllTemplates(id).observe(EditDataActivity.this, new Observer<List<Template>>() {
+                                    @Override
+                                    public void onChanged(@Nullable List<Template> templates) {
+                                        final String[] all_templates = new String[templates.size()];
+                                        for (int i = 0 ; i < templates.size() ; i++)
+                                            all_templates[i] = templates.get(i).getTemplate();
+
+                                        Random random1=new Random(1);
+                                        bodyEditText.setText(all_templates[ Math.abs(random1.nextInt()) % templates.size()]);
+                                    }
+                                });
+
+
                             }
                         })
                         .show();
