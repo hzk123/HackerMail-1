@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     tools:showIn="@layout/activity_email_list"
-    tools:listitem="@layout/email_recyclerview_item">
+    tools:listitem="@layout/email_recyclerview_item"
+    android:layout_marginBottom="40dp">
 
 </android.support.v7.widget.RecyclerView>

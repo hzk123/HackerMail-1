@@ -55,7 +55,7 @@ public abstract class EmailRoomDatabase extends RoomDatabase {
         private String[] to = {"kaeteyaruyo@gmail.com", "profatxuanall@gmail.com"};
         private String[] subject = {"sorry my dear", "really sorry"};
         private String[] body = {"body for kaeteyaruyo", "body for profatxuanall"};
-
+        private Long[] topicid = { 0L , 1L} ;
         PopulateDbAsync(EmailRoomDatabase db) {
             this.emailDao = db.getEmailDao();
         }
@@ -70,7 +70,8 @@ public abstract class EmailRoomDatabase extends RoomDatabase {
                             this.clockIsOn[i],
                             this.to[i],
                             this.subject[i],
-                            this.body[i]);
+                            this.body[i],
+                            this.topicid[i]);
                     emailDao.insert(email);
                 }
             }
